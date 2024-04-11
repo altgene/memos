@@ -26,7 +26,7 @@ const useAutoComplete = (actions: EditorRefActions) => {
           insertText = `${symbol} `;
         } else if (lastNode.type === NodeType.ORDERED_LIST) {
           const { number } = lastNode.value as OrderedListNode;
-          insertText = `${Number(number) + 1}. `;
+          insertText = `${parseInt(number) + 1}. `;
         }
         if (insertText) {
           actions.insertText(`\n${insertText}`);
