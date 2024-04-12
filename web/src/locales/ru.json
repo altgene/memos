@@ -93,10 +93,7 @@
     "wed": "Ср."
   },
   "editor": {
-    "cancel-edit": "Отменить",
-    "editing": "Редактирование...",
-    "local": "На устройстве",
-    "placeholder": "Ваши мысли...",
+    "any-thoughts": "Ваши мысли...",
     "save": "Сохранить"
   },
   "embed-memo": {
@@ -125,7 +122,8 @@
       "private": "Видно только вам",
       "protected": "Видно только пользователям",
       "public": "Видно всем"
-    }
+    },
+    "wrapping": "Перенос"
   },
   "message": {
     "change-memo-created-time": "Изменить время создания записи",

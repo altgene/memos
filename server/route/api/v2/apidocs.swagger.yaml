@@ -446,20 +446,50 @@ paths:
           schema:
             $ref: '#/definitions/googlerpcStatus'
       parameters:
-        - name: filename
+        - name: resource.name
+          description: |-
+            The name of the resource.
+            Format: resources/{id}
+            id is the system generated unique identifier.
           in: query
           required: false
           type: string
-        - name: externalLink
+        - name: resource.uid
+          description: The user defined id of the resource.
           in: query
           required: false
           type: string
-        - name: type
+        - name: resource.createTime
           in: query
           required: false
           type: string
-        - name: memo
-          description: 'Format: memos/{id}'
+          format: date-time
+        - name: resource.filename
+          in: query
+          required: false
+          type: string
+        - name: resource.content
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: resource.externalLink
+          in: query
+          required: false
+          type: string
+        - name: resource.type
+          in: query
+          required: false
+          type: string
+        - name: resource.size
+          in: query
+          required: false
+          type: string
+          format: int64
+        - name: resource.memo
+          description: |-
+            The related memo.
+            Format: memos/{id}
           in: query
           required: false
           type: string
@@ -821,6 +851,21 @@ paths:
             $ref: '#/definitions/googlerpcStatus'
       tags:
         - WorkspaceService
+  /api/v2/workspace/settings:
+    get:
+      summary: ListWorkspaceSetting returns the list of settings.
+      operationId: WorkspaceSettingService_ListWorkspaceSettings
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListWorkspaceSettingsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      tags:
+        - WorkspaceSettingService
   /api/v2/workspace/{name}:
     get:
       summary: GetWorkspaceSetting returns the setting by name.
@@ -876,7 +921,12 @@ paths:
             properties:
               generalSetting:
                 $ref: '#/definitions/apiv2WorkspaceGeneralSetting'
-                description: general_setting is the general setting of workspace.
+              storageSetting:
+                $ref: '#/definitions/apiv2WorkspaceStorageSetting'
+              memoRelatedSetting:
+                $ref: '#/definitions/apiv2WorkspaceMemoRelatedSetting'
+              telegramIntegrationSetting:
+                $ref: '#/definitions/apiv2WorkspaceTelegramIntegrationSetting'
             title: setting is the setting to update.
       tags:
         - WorkspaceSettingService
@@ -1105,6 +1155,10 @@ paths:
             $ref: '#/definitions/googlerpcStatus'
       parameters:
         - name: name_2
+          description: |-
+            The name of the resource.
+            Format: resources/{id}
+            id is the system generated unique identifier.
           in: path
           required: true
           type: string
@@ -1172,6 +1226,10 @@ paths:
             $ref: '#/definitions/googlerpcStatus'
       parameters:
         - name: name_3
+          description: |-
+            The name of the resource.
+            Format: resources/{id}
+            id is the system generated unique identifier.
           in: path
           required: true
           type: string
@@ -1636,8 +1694,12 @@ paths:
               createTime:
                 type: string
                 format: date-time
+                readOnly: true
               filename:
                 type: string
+              content:
+                type: string
+                format: byte
               externalLink:
                 type: string
               type:
@@ -1647,7 +1709,9 @@ paths:
                 format: int64
               memo:
                 type: string
-                title: 'Format: memos/{id}'
+                title: |-
+                  The related memo.
+                  Format: memos/{id}
       tags:
         - ResourceService
   /api/v2/{setting.name}:
@@ -1936,6 +2000,19 @@ definitions:
         type: string
       url:
         type: string
+  apiv2WorkspaceCustomProfile:
+    type: object
+    properties:
+      title:
+        type: string
+      description:
+        type: string
+      logoUrl:
+        type: string
+      locale:
+        type: string
+      appearance:
+        type: string
   apiv2WorkspaceGeneralSetting:
     type: object
     properties:
@@ -1954,6 +2031,18 @@ definitions:
       additionalStyle:
         type: string
         description: additional_style is the additional style.
+      customProfile:
+        $ref: '#/definitions/apiv2WorkspaceCustomProfile'
+        description: custom_profile is the custom profile.
+  apiv2WorkspaceMemoRelatedSetting:
+    type: object
+    properties:
+      disallowPublicVisible:
+        type: boolean
+        description: disallow_public_share disallows set memo as public visible.
+      displayWithUpdateTime:
+        type: boolean
+        description: display_with_update_time orders and displays memo with update time.
   apiv2WorkspaceSetting:
     type: object
     properties:
@@ -1964,7 +2053,49 @@ definitions:
           Format: settings/{setting}
       generalSetting:
         $ref: '#/definitions/apiv2WorkspaceGeneralSetting'
-        description: general_setting is the general setting of workspace.
+      storageSetting:
+        $ref: '#/definitions/apiv2WorkspaceStorageSetting'
+      memoRelatedSetting:
+        $ref: '#/definitions/apiv2WorkspaceMemoRelatedSetting'
+      telegramIntegrationSetting:
+        $ref: '#/definitions/apiv2WorkspaceTelegramIntegrationSetting'
+  apiv2WorkspaceStorageSetting:
+    type: object
+    properties:
+      storageType:
+        $ref: '#/definitions/apiv2WorkspaceStorageSettingStorageType'
+        description: storage_type is the storage type.
+      activedExternalStorageId:
+        type: integer
+        format: int32
+        description: The id of actived external storage.
+      localStoragePath:
+        type: string
+        title: |-
+          The local storage path for STORAGE_TYPE_LOCAL.
+          e.g. assets/{timestamp}_{filename}
+      uploadSizeLimitMb:
+        type: string
+        format: int64
+        description: The max upload size in megabytes.
+  apiv2WorkspaceStorageSettingStorageType:
+    type: string
+    enum:
+      - STORAGE_TYPE_UNSPECIFIED
+      - STORAGE_TYPE_DATABASE
+      - STORAGE_TYPE_LOCAL
+      - STORAGE_TYPE_EXTERNAL
+    default: STORAGE_TYPE_UNSPECIFIED
+    description: |2-
+       - STORAGE_TYPE_DATABASE: STORAGE_TYPE_DATABASE is the database storage type.
+       - STORAGE_TYPE_LOCAL: STORAGE_TYPE_LOCAL is the local storage type.
+       - STORAGE_TYPE_EXTERNAL: STORAGE_TYPE_EXTERNAL is the external storage type.
+  apiv2WorkspaceTelegramIntegrationSetting:
+    type: object
+    properties:
+      botToken:
+        type: string
+        description: bot_token is the telegram bot token.
   googlerpcStatus:
     type: object
     properties:
@@ -2322,6 +2453,14 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/apiv2Webhook'
+  v2ListWorkspaceSettingsResponse:
+    type: object
+    properties:
+      settings:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/apiv2WorkspaceSetting'
   v2Memo:
     type: object
     properties:
@@ -2420,8 +2559,12 @@ definitions:
       createTime:
         type: string
         format: date-time
+        readOnly: true
       filename:
         type: string
+      content:
+        type: string
+        format: byte
       externalLink:
         type: string
       type:
@@ -2431,7 +2574,9 @@ definitions:
         format: int64
       memo:
         type: string
-        title: 'Format: memos/{id}'
+        title: |-
+          The related memo.
+          Format: memos/{id}
   v2SearchMemosResponse:
     type: object
     properties:
@@ -2612,15 +2757,3 @@ definitions:
       mode:
         type: string
         description: mode is the instance mode (e.g. "prod", "dev" or "demo").
-      disallowSignup:
-        type: boolean
-        description: disallow_signup is whether the signup is disallowed.
-      disablePasswordLogin:
-        type: boolean
-        description: disable_password_login is whether the password login is disabled.
-      additionalScript:
-        type: string
-        description: additional_script is the additional script.
-      additionalStyle:
-        type: string
-        description: additional_style is the additional style.

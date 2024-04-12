@@ -93,10 +93,7 @@
     "wed": "Me"
   },
   "editor": {
-    "cancel-edit": "Annuler l'édition",
-    "editing": "Édition...",
-    "local": "Local",
-    "placeholder": "Une idée...",
+    "any-thoughts": "Une idée...",
     "save": "Enregistrer"
   },
   "embed-memo": {

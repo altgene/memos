@@ -90,10 +90,9 @@ const TagsSection = () => {
           ))}
         </div>
       ) : (
-        <div>
-          <p className="text-sm leading-snug italic text-gray-400 dark:text-gray-500">
-            You can create tags by inputting <code>`#tag`</code>.
-          </p>
+        <div className="p-2 border rounded-md flex flex-row justify-start items-start gap-1 text-gray-400 dark:text-gray-500">
+          <Icon.ThumbsUp />
+          <p className="mt-0.5 text-sm leading-snug italic">{t("tag.create-tags-guide")}</p>
         </div>
       )}
     </div>
@@ -129,8 +128,8 @@ const TagItemContainer: React.FC<TagItemContainerProps> = (props: TagItemContain
 
   const handleDeleteTag = async () => {
     showCommonDialog({
-      title: "Delete Tag",
-      content: "Are you sure to delete this tag?",
+      title: t("tag.delete-tag"),
+      content: t("tag.delete-confirm"),
       style: "danger",
       dialogName: "delete-tag-dialog",
       onConfirm: async () => {

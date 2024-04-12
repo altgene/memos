@@ -32,6 +32,7 @@
     "confirm": "Onayla",
     "create": "Oluştur",
     "database": "Veritabanı",
+    "days": "Günler",
     "delete": "Sil",
     "description": "Açıklama",
     "edit": "Düzenle",
@@ -46,6 +47,7 @@
     "learn-more": "Daha fazla bilgi edinin",
     "link": "Link",
     "mark": "Mark",
+    "memos": "Notlar",
     "name": "İsim",
     "new": "Yeni",
     "nickname": "Takma ad",
@@ -85,17 +87,15 @@
   "days": {
     "fri": "Cum",
     "mon": "Paz",
-    "sat": "Cum",
+    "sat": "Cmt",
     "sun": "Paz",
     "thu": "Per",
     "tue": "Sal",
     "wed": "Çar"
   },
   "editor": {
-    "cancel-edit": "İptal et",
-    "editing": "Düzenleniyor...",
-    "local": "Bilgisayardan",
-    "placeholder": "Düşünceleriniz...",
+    "add-your-comment-here": "Yorumunuzu buraya ekleyin...",
+    "any-thoughts": "Düşünceleriniz...",
     "save": "Kaydet"
   },
   "embed-memo": {
@@ -130,7 +130,8 @@
       "private": "Sadece sizin için görünür",
       "protected": "Çalışma Alanı",
       "public": "Herkese açık"
-    }
+    },
+    "wrapping": "Paketleme"
   },
   "message": {
     "archived-successfully": "Başarıyla arşivlendi",
@@ -171,6 +172,12 @@
     "succeed-vacuum-database": "DB vakumlandı",
     "update-succeed": "Başarıyla güncellendi",
     "user-not-found": "Kullanıcı bulunamadı"
+  },
+  "reference": {
+    "add-references": "Referans ekle",
+    "embedded-usage": "Gömülü İçerik Olarak Kullan",
+    "no-memos-found": "Hiçbir not bulunamadı",
+    "search-bar-placeholder": "İçerik ara"
   },
   "resource": {
     "clear": "Temizle",
